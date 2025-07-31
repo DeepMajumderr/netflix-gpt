@@ -10,42 +10,34 @@ import { logo } from '../utils/constants';
 const Header = () => {
     const navigate = useNavigate();
     const user = useSelector((store) => store.user);
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
 
     const handleSignout = () => {
-        signOut(auth).then(() => {
-          
-        }).catch((error) => {
-            navigate("/error");
-        });
+        signOut(auth)
+            .then(() => {})
+            .catch((error) => {
+                navigate("/error");
+            });
     };
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             if (user) {
-                // User is signed in, see docs for a list of available properties
-                // https://firebase.google.com/docs/reference/js/auth.user
-                const { uid, email, displayName } = user
-                dispatch(addUser({ uid: uid, email: email, displayName: displayName }))
-                navigate("/browse")
+                const { uid, email, displayName } = user;
+                dispatch(addUser({ uid, email, displayName }));
+                navigate("/browse");
             } else {
-                // User is signed out
-                dispatch(removerUser())
-                navigate('/')
+                dispatch(removerUser());
+                navigate('/');
             }
         });
 
-        //unsubscribe when component unmounts
-        return () => unsubscribe()
-    }, [])
+        return () => unsubscribe();
+    }, []);
 
     return (
-        <div className='absolute top-0 left-0 w-full px-8 py-1 bg-gradient-to-b from-black z-10 flex justify-between items-center'>
-            <img
-                className='w-44'
-                src={logo}
-                alt='Netflix Logo'
-            />
+        <div className='absolute top-0 left-0 w-full px-8 py-1 bg-gradient-to-b from-black z-50 flex justify-between items-center'>
+            <img className='w-44' src={logo} alt='Netflix Logo' />
 
             {user && (
                 <div className='flex items-center gap-4'>
