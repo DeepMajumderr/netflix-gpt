@@ -24,3 +24,4 @@ export const SUPPORTED_LANGUAGES = [
     name: "Spanish"
   },
 ]
+
